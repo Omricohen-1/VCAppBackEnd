@@ -13,5 +13,6 @@ class add_contact(Resource):
         #TODO upload the data to the server
         #TODO should we do validaition here?
         #TODO manage responses from writing to DB
-        
+
+            
         return data
