@@ -8,4 +8,10 @@ class add_contact(Resource):
         return response
 
     def post(self):
+        data = request.json()
+
+        #TODO upload the data to the server
+        #TODO should we do validaition here?
+        #TODO manage responses from writing to DB
         
+        return data
