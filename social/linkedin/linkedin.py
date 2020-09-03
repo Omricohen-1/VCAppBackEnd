@@ -13,22 +13,23 @@ test_data = json.loads(open('mocks\FB_TEST.json', 'r').read())
 
 
 class LinkedinInstance:
-    def __init__(self):
+    def __init__(self, email, password):
         self.main_url = 'https://www.linkedin.com'
         self.driver = webdriver.Chrome(r'.\chromedriver')
         self.driver.get(self.main_url)
+        self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
-    def sign_in(self):
+    def sign_in(self, email, password):
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_key"]')
         usename_place.click()
-        usename_place.send_keys(test_data['email'])
+        usename_place.send_keys(email)
 
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_password"]')
         usename_place.click()
-        usename_place.send_keys(test_data['password'])
+        usename_place.send_keys(password)
 
         self.driver.find_element_by_xpath(
             '/html/body/main/section[1]/div[2]/form/button').click()
@@ -82,7 +83,8 @@ class LinkedinInstance:
 def get_users_by_search(search_string):
     # TODO Make it headless
     # TODO add headers to vonnevt as his default browser?
-    linkedin_instance = LinkedinInstance()
+    linkedin_instance = LinkedinInstance(
+        test_data['email'], test_data['password'])
     linkedin_instance.sign_in()
     linkedin_instance.search(search_string)
     linkedin_instance.parse_search_results()
