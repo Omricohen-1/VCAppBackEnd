@@ -8,8 +8,7 @@ from bs4 import BeautifulSoup as bs
 import json
 
 
-# TODO remove test data and get parmaters
-test_data = json.loads(open('mocks\FB_TEST.json', 'r').read())
+
 
 
 class LinkedinInstance:
@@ -90,4 +89,7 @@ def get_users_by_search(search_string):
     linkedin_instance.parse_search_results()
 
 
-test = get_users_by_search('Aviv Sharon')
+if __name__ == "__main__":
+    # TODO remove test data and get parmaters
+    test_data = json.loads(open('mocks\FB_TEST.json', 'r').read())
+    test = get_users_by_search('Aviv Sharon')
