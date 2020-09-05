@@ -19,7 +19,7 @@ class LinkedinInstance:
         self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
-    def sign_in(self):
+    def sign_in(self,email,password):
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_key"]')
         usename_place.click()
@@ -92,3 +92,4 @@ if __name__ == "__main__":
     # TODO remove test data and get parmaters
     test_data = json.loads(open('mocks\FB_TEST.json', 'r').read())
     test = get_users_by_search('Aviv Sharon')
+    print ()
