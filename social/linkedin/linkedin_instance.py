@@ -19,7 +19,7 @@ class LinkedinInstance:
         self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
-    def sign_in(self, email, password):
+    def sign_in(self):
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_key"]')
         usename_place.click()
@@ -84,9 +84,8 @@ def get_users_by_search(search_string):
     # TODO add headers to vonnevt as his default browser?
     linkedin_instance = LinkedinInstance(
         test_data['email'], test_data['password'])
-    linkedin_instance.sign_in()
     linkedin_instance.search(search_string)
-    linkedin_instance.parse_search_results()
+    return linkedin_instance.parse_search_results()
 
 
 if __name__ == "__main__":
