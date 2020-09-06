@@ -8,7 +8,7 @@ cors = CORS(application)
 application.config['CORS_HEADERS'] = 'Content-Type'
 
 
-api = Api(application)  
+api = Api(application)
 
 
 
