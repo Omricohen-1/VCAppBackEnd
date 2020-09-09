@@ -16,11 +16,16 @@ api.add_resource(add_contact, "/add-contacts")
 @application.route("/search_linkedin", methods=['GET'])
 def search_linkedin():
     """
-    Function excpects GET request with q='{str}' arg
+    Function excpects GET request with:
+    q='{str}' arg
+    email='{str}'
+    password='{str}'
     """
+    #TODO change to oauth2
     search_string = request.args.get('q')
-    #TODO change to get email and pass
-    return li.test_instance().get_users_by_search(search_string)
+    email = request.args.get('email')
+    password = request.args.get('password')
+    return li.LinkedinInstance(email,password).get_users_by_search(search_string)
 
 
 @application.route("/status")
