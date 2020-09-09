@@ -19,7 +19,8 @@ def search_linkedin():
     Function excpects GET request with q='{str}' arg
     """
     search_string = request.args.get('q')
-    return li.get_users_by_search(search_string)
+    #TODO change to get email and pass
+    return li.test_instance().get_users_by_search(search_string)
 
 
 @application.route("/status")

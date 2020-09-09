@@ -12,8 +12,11 @@ import json
 
 class LinkedinInstance:
     def __init__(self, email, password):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome(r'.\chromedriver')
+        self.driver = webdriver.Chrome(r'.\chromedriver',options=chrome_options)
         self.driver.get(self.main_url)
         self.sign_in(email, password)
 
@@ -49,10 +52,10 @@ class LinkedinInstance:
             '//*[@id="ember41"]/input')
         search_bar.send_keys(search_string)
         search_bar.send_keys(Keys.ENTER)
-        #TODO fix it to lazy wait prooperly
+        # TODO fix it to lazy wait prooperly
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-result__wrapper')))
-        
+        time.sleep(1)
 
     def parse_search_results(self):
         html_source = self.driver.page_source
@@ -65,6 +68,7 @@ class LinkedinInstance:
 
     def parse_single_elment(self, banner_element):
         # TODO manage a state and log if more then 1 finding
+        # TODO ass scroll Down
         # TODO add shared connections url search and parse
         # TODO add shared connections count
         result = {}
@@ -77,11 +81,11 @@ class LinkedinInstance:
         result['location'] = [element.text for element in banner_element.find_all(
             "p", class_="subline-level-2 t-12 t-black--light t-normal search-result__truncate")][0]
         try:
-            result['profile_img'] = [element.src for element in banner_element.findChildren(
-            "img")][0]
+            result['profile_img'] = [element['src'] for element in banner_element.findChildren(
+                "img")][0]
         except:
             None
-            #TODO LOG this
+            # TODO LOG this
         return result
 
     def get_users_by_search(self, search_string):
@@ -89,7 +93,7 @@ class LinkedinInstance:
         # TODO add headers to connect as his default browser?
 
         self.search(search_string)
-        return self.parse_search_results()
+        return json.dumps(self.parse_search_results())
 
 
 def test_instance():
