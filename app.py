@@ -15,6 +15,9 @@ api.add_resource(add_contact, "/add-contacts")
 
 @application.route("/search_linkedin", methods=['GET'])
 def search_linkedin():
+    """
+    Function excpects GET request with q='{str}' arg
+    """
     search_string = request.args.get('q')
     return li.get_users_by_search(search_string)
 

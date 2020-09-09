@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import time
+
 from bs4 import BeautifulSoup as bs
 import json
 
@@ -47,8 +49,10 @@ class LinkedinInstance:
             '//*[@id="ember41"]/input')
         search_bar.send_keys(search_string)
         search_bar.send_keys(Keys.ENTER)
+        #TODO fix it to lazy wait prooperly
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-result__wrapper')))
+        
 
     def parse_search_results(self):
         html_source = self.driver.page_source
@@ -72,7 +76,12 @@ class LinkedinInstance:
             "p", class_="subline-level-1 t-14 t-black t-normal search-result__truncate")][0]
         result['location'] = [element.text for element in banner_element.find_all(
             "p", class_="subline-level-2 t-12 t-black--light t-normal search-result__truncate")][0]
-
+        try:
+            result['profile_img'] = [element.src for element in banner_element.findChildren(
+            "img")][0]
+        except:
+            None
+            #TODO LOG this
         return result
 
     def get_users_by_search(self, search_string):
