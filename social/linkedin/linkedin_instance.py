@@ -12,18 +12,20 @@ import json
 
 class LinkedinInstance:
     def __init__(self, email, password):
-        #TODO add settings yamel for local and server
         chrome_options = webdriver.ChromeOptions()
         # chrome_options.add_argument("--headless")
         chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        #TODO path for local chromedriver is '.\chromedriver'
-        self.driver = webdriver.Chrome(settings.CHROME_DRIVER_PATH ,options=chrome_options)
+        self.driver = webdriver.Chrome(
+            settings.CHROME_DRIVER_PATH, options=chrome_options)
         self.driver.get(self.main_url)
-        self.sign_in(email, password)
+        if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
+            print('[LinkedinInstance] Sign-in requierd')
+            self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
     def sign_in(self, email, password):
+        print('[LinkedinInstance][sign-in]  Starting')
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_key"]')
         usename_place.click()
@@ -44,14 +46,15 @@ class LinkedinInstance:
 
         except:
             None
-
+        print('[LinkedinInstance][sign-in] Success')
         # TODO arrange until
         WebDriverWait(self.driver, 30).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="ember41"]/input')))
+            EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
 
     def search(self, search_string):
-        search_bar = self.driver.find_element_by_xpath(
-            '//*[@id="ember41"]/input')
+        print('[LinkedinInstance][search] search_string='+search_string)
+        search_bar = self.driver.find_element_by_class_name(
+            'search-global-typeahead__input')
         search_bar.send_keys(search_string)
         search_bar.send_keys(Keys.ENTER)
         # TODO fix it to lazy wait prooperly
