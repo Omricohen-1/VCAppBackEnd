@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 import time
-
+from dynaconf import settings
 from bs4 import BeautifulSoup as bs
 import json
 
@@ -14,10 +14,11 @@ class LinkedinInstance:
     def __init__(self, email, password):
         #TODO add settings yamel for local and server
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--headless")
         chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome(r'/home/ubuntu/VCApp/VCAppBackEnd/chromedriver',options=chrome_options)
+        #TODO path for local chromedriver is '.\chromedriver'
+        self.driver = webdriver.Chrome(settings.CHROME_DRIVER_PATH ,options=chrome_options)
         self.driver.get(self.main_url)
         self.sign_in(email, password)
 
