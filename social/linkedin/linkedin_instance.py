@@ -16,8 +16,7 @@ class LinkedinInstance:
         # chrome_options.add_argument("--headless")
         chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome(
-            settings.CHROME_DRIVER_PATH, options=chrome_options)
+        self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
         self.driver.get(self.main_url)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
