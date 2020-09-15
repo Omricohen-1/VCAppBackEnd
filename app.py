@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 from add_contact_api import add_contact
 from social.linkedin import linkedin_instance as li
 from elasticsearch import Elasticsearch
+from dynaconf import settings
 
 application = Flask(__name__)
 cors = CORS(application)
@@ -18,8 +19,17 @@ elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-cent
 
 @application.route("/search_linkedin", methods=['GET'])
 def search_linkedin():
+    """
+    Function excpects GET request with:
+    q='{str}' arg
+    email='{str}'
+    password='{str}'
+    """
+    # TODO change to oauth2
     search_string = request.args.get('q')
-    return li.get_users_by_search(search_string)
+    email = request.args.get('email')
+    password = request.args.get('password')
+    return li.LinkedinInstance(email, password).get_users_by_search(search_string)
 
 
 @application.route("/add_contact", methods=['POST'])
