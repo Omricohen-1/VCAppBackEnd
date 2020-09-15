@@ -21,6 +21,7 @@ class LinkedinInstance:
         self.main_url = 'https://www.linkedin.com'
         self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
+        time.sleep(5)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
