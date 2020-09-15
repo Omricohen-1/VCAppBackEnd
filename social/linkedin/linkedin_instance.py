@@ -102,7 +102,7 @@ class LinkedinInstance:
 
 
 def test_instance():
-    test_data = json.loads(open('mocks\FB_TEST.json', 'r').read())
+    test_data = json.loads(open(r'mocks\FB_TEST.json', 'r').read())
     return LinkedinInstance(
         test_data['email'], test_data['password'])
 
