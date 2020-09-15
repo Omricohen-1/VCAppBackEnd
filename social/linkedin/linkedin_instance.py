@@ -21,10 +21,16 @@ class LinkedinInstance:
         self.main_url = 'https://www.linkedin.com'
         self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        time.sleep(5)
-        if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
-            print('[LinkedinInstance] Sign-in requierd')
-            self.sign_in(email, password)
+        time.sleep(1)
+        username = self.driver.find_element_by_name('session_key')
+        username.send_keys(email)
+        time.sleep(0.5)
+        password = self.driver.find_element_by_name('session_password')
+        password.send_keys(password)
+        print('success')
+        # if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
+        #     print('[LinkedinInstance] Sign-in requierd')
+        #     self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
     def sign_in(self, email, password):
