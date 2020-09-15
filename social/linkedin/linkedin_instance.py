@@ -13,10 +13,13 @@ import json
 class LinkedinInstance:
     def __init__(self, email, password):
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
         # chrome_options.add_argument("--headless")
         chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+        self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
@@ -51,7 +54,7 @@ class LinkedinInstance:
             EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
 
     def search(self, search_string):
-        print('[LinkedinInstance][search] search_string='+search_string)
+        print('[LinkedinInstance][search] search_string=' + search_string)
         search_bar = self.driver.find_element_by_class_name(
             'search-global-typeahead__input')
         search_bar.send_keys(search_string)
@@ -78,8 +81,10 @@ class LinkedinInstance:
         result = {}
         result['name'] = [element.text for element in banner_element.find_all(
             "span", class_="name actor-name")][0]
-        result['profile_url'] = self.main_url+[element["href"]
-                                               for element in banner_element.find_all("a", class_="search-result__result-link ember-view")][0]
+        result['profile_url'] = self.main_url + [element["href"]
+                                                 for element in banner_element.find_all("a",
+                                                                                        class_="search-result__result-link ember-view")][
+            0]
         result['role'] = [element.text for element in banner_element.find_all(
             "p", class_="subline-level-1 t-14 t-black t-normal search-result__truncate")][0]
         result['location'] = [element.text for element in banner_element.find_all(
