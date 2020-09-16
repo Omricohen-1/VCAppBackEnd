@@ -28,6 +28,8 @@ class LinkedinInstance:
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
         self.driver = webdriver.Firefox(options=options)
         self.main_url = 'https://www.linkedin.com'
+        self.driver.maximize_window()
+        self.driver.implicitly_wait(20)
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
