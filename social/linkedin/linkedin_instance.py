@@ -16,13 +16,14 @@ class LinkedinInstance:
     def __init__(self, email, password):
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--headless")
+        # chrome_options = webdriver.ChromeOptions()
+        # chrome_options.add_argument("--headless")
         # chrome_options.add_argument('--no-sandbox')
         # chrome_options.add_argument('--disable-gpu')
         # chrome_options.add_argument('--allow-running-insecure-content')
         # chrome_options.add_argument("--window-size=1920x1080")
-        self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), chrome_options=chrome_options)
+        # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
+        self.driver = webdriver.Firefox()
         self.main_url = 'https://www.linkedin.com'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
