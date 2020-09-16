@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
 from pyvirtualdisplay import Display
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -14,6 +15,8 @@ import json
 
 class LinkedinInstance:
     def __init__(self, email, password):
+        options = Options()
+        options.headless = True
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
         # chrome_options = webdriver.ChromeOptions()
@@ -23,7 +26,7 @@ class LinkedinInstance:
         # chrome_options.add_argument('--allow-running-insecure-content')
         # chrome_options.add_argument("--window-size=1920x1080")
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(options=options)
         self.main_url = 'https://www.linkedin.com'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
