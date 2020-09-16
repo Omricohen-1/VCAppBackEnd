@@ -22,11 +22,8 @@ class LinkedinInstance:
         # chrome_options.add_argument('--allow-running-insecure-content')
         # chrome_options.add_argument("--window-size=1920x1080")
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options,
-                                       service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+        self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        elem = self.driver.find_element_by_xpath('//*[@id="session_key"]')
-        self.driver.execute_script("arguments[0].scrollIntoView();", elem)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
