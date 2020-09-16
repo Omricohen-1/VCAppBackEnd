@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pyvirtualdisplay import Display
+from webdriver_manager.chrome import ChromeDriverManager
 
 import time
 from dynaconf import settings
@@ -17,12 +18,13 @@ class LinkedinInstance:
         # display.start()
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-gpu')
+        # chrome_options.add_argument('--no-sandbox')
+        # chrome_options.add_argument('--disable-gpu')
         # chrome_options.add_argument('--allow-running-insecure-content')
         # chrome_options.add_argument("--window-size=1920x1080")
+        self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), chrome_options=chrome_options)
         self.main_url = 'https://www.linkedin.com'
-        self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
+        # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
         if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
