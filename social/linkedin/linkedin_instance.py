@@ -25,7 +25,9 @@ class LinkedinInstance:
         self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options,
                                        service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
         self.driver.get(self.main_url)
-        if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
+        session_key = WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, '//*[@id="session_key"]')))
+        if session_key:
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
 
