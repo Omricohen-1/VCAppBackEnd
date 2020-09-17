@@ -17,7 +17,9 @@ class LinkedinInstance:
     def __init__(self, email, password):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
-        self.driver = webdriver.Chrome('/home/ubuntu/chrome_driver/chromedriver', chrome_options=chrome_options)
+        self.driver = webdriver.Chrome(
+            'C:\\Users\\FourI\\.wdm\\drivers\\chromedriver\\win32\\84.0.4147.30\\chromedriver',
+            chrome_options=chrome_options)
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
         # chrome_options = webdriver.ChromeOptions()
