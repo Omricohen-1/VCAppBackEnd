@@ -18,7 +18,7 @@ class LinkedinInstance:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome(
-            'C:\\Users\\FourI\\.wdm\\drivers\\chromedriver\\win32\\84.0.4147.30\\chromedriver',
+            '/home/ubuntu/chrome_driver/chromedriver',
             chrome_options=chrome_options)
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
