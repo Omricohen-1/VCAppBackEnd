@@ -17,9 +17,7 @@ class LinkedinInstance:
     def __init__(self, email, password):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
-        self.driver = webdriver.Chrome(
-            '/home/ubuntu/chrome_driver/chromedriver',
-            chrome_options=chrome_options)
+        self.driver = webdriver.Chrome('/home/ubuntu/chrome_driver/chromedriver', chrome_options=chrome_options)
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
         # chrome_options = webdriver.ChromeOptions()
@@ -33,27 +31,26 @@ class LinkedinInstance:
         self.main_url = 'https://www.linkedin.com'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        if self.driver.find_element_by_name('session_key'):
+        if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
     def sign_in(self, email, password):
         print('[LinkedinInstance][sign-in]  Starting')
-        self.driver.find_element_by_name('session_key').send_keys(email)
+        usename_place = self.driver.find_element_by_xpath(
+            '//*[@id="session_key"]')
+        usename_place.click()
+        usename_place.send_keys(email)
+
         usename_place = self.driver.find_element_by_xpath(
             '//*[@id="session_password"]')
         usename_place.click()
         usename_place.send_keys(password)
-        # usename_place = self.driver.find_element_by_xpath(
-        #     '//*[@id="session_key"]')
-        # usename_place.click()
-        # usename_place.send_keys(email)
-        #
-        #
-        # self.driver.find_element_by_xpath(
-        #     '/html/body/main/section[1]/div[2]/form/button').click()
-        #
+
+        self.driver.find_element_by_xpath(
+            '/html/body/main/section[1]/div[2]/form/button').click()
+
         try:
             confirmition = self.driver.find_element_by_xpath(
                 '//*[@id="ember512"]/button[1]')
