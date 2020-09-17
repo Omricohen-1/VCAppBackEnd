@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask_cors import CORS, cross_origin
 from add_contact_api import add_contact
 from social.linkedin import linkedin_instance as li
+from social.facebook import facebook
 from elasticsearch import Elasticsearch
 from dynaconf import settings
 
@@ -30,6 +31,21 @@ def search_linkedin():
     email = request.args.get('email')
     password = request.args.get('password')
     return li.LinkedinInstance(email, password).get_users_by_search(search_string)
+
+
+@application.route("/search_facebook", methods=['GET'])
+def search_facebook():
+    """
+    Function excpects GET request with:
+    q='{str}' arg
+    email='{str}'
+    password='{str}'
+    """
+    # TODO change to oauth2
+    search_string = request.args.get('q')
+    email = request.args.get('email')
+    password = request.args.get('password')
+    return facebook.login_facebook(email, password)
 
 
 @application.route("/add_contact", methods=['POST'])
