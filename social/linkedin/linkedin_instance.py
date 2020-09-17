@@ -30,10 +30,10 @@ class LinkedinInstance:
         # chrome_options.add_argument("--window-size=1920x1080")
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
         # self.driver = webdriver.Firefox(options=options)
-        self.main_url = 'https://www.linkedin.com'
+        self.main_url = 'https://www.linkedin.com/uas/login?'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        if self.driver.find_element_by_xpath('//*[@id="session_key"]'):
+        if self.driver.find_element_by_name('session_key'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
 
