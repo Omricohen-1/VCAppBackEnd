@@ -15,8 +15,9 @@ import json
 
 class LinkedinInstance:
     def __init__(self, email, password):
-        options = Options()
-        options.headless = True
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        self.driver = webdriver.Chrome('C:\\Users\\FourI\\.wdm\\drivers\\chromedriver\\win32\\84.0.4147.30\\chromedriver', chrome_options=chrome_options)
         # display = Display(visible=0, size=(1024, 768))
         # display.start()
         # chrome_options = webdriver.ChromeOptions()
@@ -26,7 +27,7 @@ class LinkedinInstance:
         # chrome_options.add_argument('--allow-running-insecure-content')
         # chrome_options.add_argument("--window-size=1920x1080")
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
-        self.driver = webdriver.Firefox(options=options)
+        # self.driver = webdriver.Firefox(options=options)
         self.main_url = 'https://www.linkedin.com'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
