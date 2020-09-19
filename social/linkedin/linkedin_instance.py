@@ -44,7 +44,7 @@ class LinkedinInstance:
         usename_place.click()
         usename_place.send_keys(email)
 
-        usename_place = self.driver.find_element_by_class_name('password')
+        usename_place = self.driver.find_element_by_class_name('login-password')
         usename_place.click()
         usename_place.send_keys(password)
 
