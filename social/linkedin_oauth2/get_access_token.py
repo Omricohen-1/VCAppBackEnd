@@ -14,7 +14,7 @@ def main(AUTH_CODE):
 
     qd = {'grant_type': 'authorization_code',
           'code': AUTH_CODE,
-          'redirect_uri': 'http://localhost:8080/linkedin_auth',
+          'redirect_uri': 'http://localhost:8080/linkedin/auth',
           'client_id': credantials['client_id'],
           'client_secret': credantials['client_secret']}
 

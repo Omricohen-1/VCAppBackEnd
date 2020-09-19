@@ -13,8 +13,7 @@ def main():
 
     # Copy the client ID, secret, and redirect URI in the fields below
     CLIENT_ID    = credantials['client_id']
-    CLIENT_SECRET = credantials['client_secret']
-    REDIRECT_URI = 'http://localhost:8080/linkedin_auth'
+    REDIRECT_URI = 'http://localhost:8080/linkedin/auth'
 
     # Generate a random string to protect against cross-site request forgery
     letters = string.ascii_lowercase
@@ -33,6 +32,7 @@ def main():
 
     # Print the link to the approval page
     webbrowser.open(html.url, new=1, autoraise=True)
+    
 
         # Click the link below to be taken to your redirect page.
 
