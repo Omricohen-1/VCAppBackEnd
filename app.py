@@ -50,8 +50,10 @@ def search_facebook():
 
 @application.route("/add_contact", methods=['POST'])
 def add_contact_to_db():
-    contact = request.get_json()
-    elastic.index(index='eitan-cl', body=contact)
+    # TODO fix connection with the new elastic
+    pass
+    # contact = request.get_json()
+    # elastic.index(index='eitan-cl', body=contact)
 
 
 @application.route("/status")

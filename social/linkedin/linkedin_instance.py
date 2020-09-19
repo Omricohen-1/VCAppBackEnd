@@ -3,9 +3,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.options import Options
-from pyvirtualdisplay import Display
-from webdriver_manager.chrome import ChromeDriverManager
 
 import time
 from dynaconf import settings
@@ -20,47 +17,24 @@ class LinkedinInstance:
         self.driver = webdriver.Chrome(
             '/home/ubuntu/chrome_driver/chromedriver',
             chrome_options=chrome_options)
-        # display = Display(visible=0, size=(1024, 768))
-        # display.start()
-        # chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument("--headless")
-        # chrome_options.add_argument('--no-sandbox')
-        # chrome_options.add_argument('--disable-gpu')
-        # chrome_options.add_argument('--allow-running-insecure-content')
-        # chrome_options.add_argument("--window-size=1920x1080")
-        # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
-        # self.driver = webdriver.Firefox(options=options)
         self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
-        # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
         if self.driver.find_element_by_name('session_key'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
 
-    # TODO add a check to see if connected or not and the manage connection
+    # TODO add a check to see if connected or not and the manage connection and handle cookies
     def sign_in(self, email, password):
         print('[LinkedinInstance][sign-in]  Starting')
         usename_place = self.driver.find_element_by_name('session_key')
         usename_place.click()
-        time.sleep(2)
         usename_place.send_keys(email)
-        time.sleep(6)
 
         usename_place = self.driver.find_element_by_name('session_password')
         usename_place.click()
-        time.sleep(1)
         usename_place.send_keys(password)
-        time.sleep(7)
-        #
+
         self.driver.find_element_by_class_name("login__form_action_container").click()
-        #
-        # try:
-        #     confirmition = self.driver.find_element_by_xpath(
-        #         '//*[@id="ember512"]/button[1]')
-        #     confirmition.click()
-        #
-        # except:
-        #     None
         print('[LinkedinInstance][sign-in] Success')
         # TODO arrange until
         WebDriverWait(self.driver, 30).until(
