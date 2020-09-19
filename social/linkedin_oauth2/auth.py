@@ -5,13 +5,11 @@ import string
 import random
 import webbrowser
 
+#TODO check if user already has acsess token and then dont do the process
 def main():
     credantials = json.loads(
         open(r'social\linkedin_oauth2\credentials.json', 'rb').read())['web']
 
-    # TODO add username/id string to token file name
-    # TODO pickle file name should br Global on class build
-    # TODO add pickle saving (google example)
 
     # Copy the client ID, secret, and redirect URI in the fields below
     CLIENT_ID    = credantials['client_id']
