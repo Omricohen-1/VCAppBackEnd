@@ -30,25 +30,25 @@ class LinkedinInstance:
         # chrome_options.add_argument("--window-size=1920x1080")
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
         # self.driver = webdriver.Firefox(options=options)
-        self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
+        self.main_url = 'https://www.linkedin.com'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        if self.driver.find_element_by_name('session_key'):
+        if self.driver.find_element_by_name('email-or-phone'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
 
     # TODO add a check to see if connected or not and the manage connection
     def sign_in(self, email, password):
         print('[LinkedinInstance][sign-in]  Starting')
-        usename_place = self.driver.find_element_by_name('session_key')
+        usename_place = self.driver.find_element_by_name('email-or-phone')
         usename_place.click()
         usename_place.send_keys(email)
 
-        usename_place = self.driver.find_element_by_name('session_password')
+        usename_place = self.driver.find_element_by_name('password')
         usename_place.click()
         usename_place.send_keys(password)
         #
-        self.driver.find_element_by_class_name("login__form_action_container").click()
+        self.driver.find_element_by_class_name("join-form__form-body-submit-button").click()
         #
         # try:
         #     confirmition = self.driver.find_element_by_xpath(
