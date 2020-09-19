@@ -44,23 +44,28 @@ class LinkedinInstance:
         usename_place.click()
         usename_place.send_keys(email)
 
+        html_source = self.driver.page_source
+        soup = bs(html_source, "html")
+        with open("linkedin.html", "w") as file:
+            file.write(str(soup))
+
         # usename_place = self.driver.find_element_by_class_name('password')
         # usename_place.click()
         # usename_place.send_keys(password)
-
-        self.driver.find_element_by_name('signin').click()
-
-        try:
-            confirmition = self.driver.find_element_by_xpath(
-                '//*[@id="ember512"]/button[1]')
-            confirmition.click()
-
-        except:
-            None
-        print('[LinkedinInstance][sign-in] Success')
-        # TODO arrange until
-        WebDriverWait(self.driver, 30).until(
-            EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
+        #
+        # self.driver.find_element_by_name('signin').click()
+        #
+        # try:
+        #     confirmition = self.driver.find_element_by_xpath(
+        #         '//*[@id="ember512"]/button[1]')
+        #     confirmition.click()
+        #
+        # except:
+        #     None
+        # print('[LinkedinInstance][sign-in] Success')
+        # # TODO arrange until
+        # WebDriverWait(self.driver, 30).until(
+        #     EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
 
     def search(self, search_string):
         print('[LinkedinInstance][search] search_string=' + search_string)
