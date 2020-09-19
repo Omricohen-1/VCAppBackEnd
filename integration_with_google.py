@@ -40,6 +40,7 @@ def authentication():
 
 
 def create_threshold_date(threshold):
+    """calculates the date 'threshold' days ago, and returns it as String"""
     today_date = datetime.datetime.today().date()
     threshold_diff = datetime.timedelta(days=threshold)
     threshold_date = today_date - threshold_diff
@@ -47,6 +48,7 @@ def create_threshold_date(threshold):
 
 
 def bring_all_mess(service):
+    """returns all the mails in your Gmail account from the last day"""
     threshold_date = create_threshold_date(1)
     allMes = service.users().messages().list(userId='me', q=f"after:{threshold_date}").execute()
     for mess in allMes['messages']:
@@ -56,6 +58,7 @@ def bring_all_mess(service):
 
 
 def bring_filtered_mess(service, user, threshold):
+    """returns all the mails in your Gmail account sent by user sent in the last 'threshold' days"""
     threshold_date = create_threshold_date(threshold)
     allMes = service.users().messages().list(userId='me', q=f"from:{user}, after:{threshold_date}").execute()
     for mess in allMes['messages']:
