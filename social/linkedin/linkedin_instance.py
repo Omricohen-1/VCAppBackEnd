@@ -59,6 +59,9 @@ class LinkedinInstance:
         #     None
         print('[LinkedinInstance][sign-in] Success')
         # TODO arrange until
+        soup = bs(self.driver.page_source, "html")
+        with open("linkedin.html", "w") as file:
+            file.write(str(soup))
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
 
