@@ -48,7 +48,7 @@ class LinkedinInstance:
         usename_place.click()
         usename_place.send_keys(password)
         #
-        self.driver.find_element_by_class_name("login__form_action_container")
+        self.driver.find_element_by_class_name("login__form_action_container").click()
         #
         # try:
         #     confirmition = self.driver.find_element_by_xpath(
@@ -63,6 +63,7 @@ class LinkedinInstance:
         soup = bs(self.driver.page_source, "html")
         with open("linkedin.html", "w") as file:
             file.write(str(soup))
+        print("wrote html file")
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
 
