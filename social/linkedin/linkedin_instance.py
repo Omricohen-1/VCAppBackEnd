@@ -58,6 +58,7 @@ class LinkedinInstance:
         # except:
         #     None
         print('[LinkedinInstance][sign-in] Success')
+        time.sleep(10)
         # TODO arrange until
         soup = bs(self.driver.page_source, "html")
         with open("linkedin.html", "w") as file:
