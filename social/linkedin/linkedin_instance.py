@@ -30,14 +30,9 @@ class LinkedinInstance:
         # chrome_options.add_argument("--window-size=1920x1080")
         # binary = FirefoxBinary('C:\\Users\\FourI\\OneDrive\\Desktop\\Omri\\webdriver\\geckodriver')
         # self.driver = webdriver.Firefox(options=options)
-        self.main_url = 'https://www.linkedin.com'
+        self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
         # self.driver = webdriver.Chrome("/home/ubuntu/chrome_driver/chromedriver", chrome_options=chrome_options)
         self.driver.get(self.main_url)
-        time.sleep(10)
-        soup = bs(self.driver.page_source, "html")
-        with open("linkedin.html", "w") as file:
-            file.write(str(soup))
-        print("wrote html file")
         if self.driver.find_element_by_name('session_key'):
             print('[LinkedinInstance] Sign-in requierd')
             self.sign_in(email, password)
@@ -63,6 +58,11 @@ class LinkedinInstance:
         # except:
         #     None
         print('[LinkedinInstance][sign-in] Success')
+        time.sleep(10)
+        soup = bs(self.driver.page_source, "html")
+        with open("linkedin.html", "w") as file:
+            file.write(str(soup))
+        print("wrote html file")
         # TODO arrange until
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
