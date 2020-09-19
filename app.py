@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 from add_contact_api import add_contact
 from social.linkedin import linkedin_instance as li
 from dynaconf import settings
+from social.linkedin_oauth2 import get_access_token
 
 application = Flask(__name__)
 cors = CORS(application)
@@ -29,9 +30,20 @@ def search_linkedin():
     return li.LinkedinInstance(email, password).get_users_by_search(search_string)
 
 
+@application.route("/linkedin_auth", methods=['GET'])
+def get_linkedin_auth():
+    if 'code' in request.args:
+        code = request.args.get('code')
+        state = request.args.get('state')
+        get_access_token.main(code)
+        return "got code processing... redirect in less then 5 sec"
+    else :
+        return "Ok"
+
 @application.route("/status")
 def status():
     return "ok"
+
 
 
 if __name__ == "__main__":
