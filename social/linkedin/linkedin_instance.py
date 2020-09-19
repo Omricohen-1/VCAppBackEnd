@@ -48,7 +48,7 @@ class LinkedinInstance:
         usename_place.click()
         usename_place.send_keys(password)
         #
-        self.driver.find_element_by_xpath('//*[@id="app__container"]/main/div[2]/form/div[4]/button').click()
+        self.driver.find_element_by_class_name("login__form_action_container")
         #
         # try:
         #     confirmition = self.driver.find_element_by_xpath(
