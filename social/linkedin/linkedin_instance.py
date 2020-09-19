@@ -44,13 +44,9 @@ class LinkedinInstance:
         usename_place.click()
         usename_place.send_keys(email)
 
-        usename_place = self.driver.find_element_by_xpath(
-            '//*[@id="session_password"]')
-        usename_place.click()
-        usename_place.send_keys(password)
+        self.driver.find_element_by_class_name('password').send_keys(password)
 
-        self.driver.find_element_by_xpath(
-            '/html/body/main/section[1]/div[2]/form/button').click()
+        self.driver.find_element_by_name('signin').click()
 
         try:
             confirmition = self.driver.find_element_by_xpath(
