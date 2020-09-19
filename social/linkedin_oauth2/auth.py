@@ -3,6 +3,7 @@ import json
 import requests
 import string
 import random
+import webbrowser
 
 def main():
     credantials = json.loads(
@@ -33,7 +34,7 @@ def main():
                         params = auth_params)
 
     # Print the link to the approval page
-    print(html.url) #TODO launch the url
+    webbrowser.open(html.url, new=1, autoraise=True)
 
         # Click the link below to be taken to your redirect page.
 
