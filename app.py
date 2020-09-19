@@ -14,6 +14,8 @@ application.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(application)
 
 api.add_resource(add_contact, "/add-contacts")
+
+#linkedin paths
 api.add_resource(li_auth, '/linkedin/auth')
 api.add_resource(li_search, '/linkedin/search')
 api.add_resource(li_launch_auth, '/linkedin/launch_auth')
