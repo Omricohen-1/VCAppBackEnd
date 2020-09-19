@@ -62,14 +62,6 @@ class LinkedinInstance:
         # except:
         #     None
         print('[LinkedinInstance][sign-in] Success')
-        pass_fake_login_password = input()
-        self.driver.find_element_by_name("pin").send_keys(pass_fake_login_password)
-        self.driver.find_element_by_id("email-pin-submit-button").click()
-        time.sleep(10)
-        soup = bs(self.driver.page_source, "html")
-        with open("linkedin.html", "w") as file:
-            file.write(str(soup))
-        print("wrote html file")
         # TODO arrange until
         WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
