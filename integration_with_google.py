@@ -1,4 +1,5 @@
 from __future__ import print_function
+import json
 import pickle
 import os.path
 from googleapiclient.discovery import build
@@ -6,7 +7,6 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import datetime
 
-# If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 THRESHOLD = 21  # days
 user = "noreply@hebits.net"
@@ -39,6 +39,16 @@ def authentication():
     return service
 
 
+def export_date_from_messages(service, messages_array):
+    for mess in messages_array['messages']:
+        messId = mess['id']
+        message = service.users().messages().get(userId='me', id=messId).execute()
+        time_message_sent = message['payload']['headers'][1]['value']
+        array = time_message_sent.split()
+        datetime_object = datetime.datetime.strptime(f'{array[8]}-{array[7]}-{array[9]}', '%b-%d-%Y').date()
+        print(datetime_object)
+
+
 def create_threshold_date(threshold):
     """calculates the date 'threshold' days ago, and returns it as String"""
     today_date = datetime.datetime.today().date()
@@ -51,16 +61,19 @@ def bring_all_mess(service):
     """returns all the mails in your Gmail account from the last day"""
     threshold_date = create_threshold_date(1)
     allMes = service.users().messages().list(userId='me', q=f"after:{threshold_date}").execute()
-    for mess in allMes['messages']:
-        messId = mess['id']
-        message = service.users().messages().get(userId='me', id=messId).execute()
-        print(message)
 
 
 def bring_filtered_mess(service, user, threshold):
-    """returns all the mails in your Gmail account sent by user sent in the last 'threshold' days"""
+    """returns all the mails in your Gmail account sent by user sent in the last 'threshold' days
+    :parameter service: gives access to your gmail account
+    :parameter user: the sender e-mail account 'user@example.com'
+    :parameter threshold: number of days back to search for
+    """
     threshold_date = create_threshold_date(threshold)
     allMes = service.users().messages().list(userId='me', q=f"from:{user}, after:{threshold_date}").execute()
+
+
+def find_latest_message(service, allMes):
     for mess in allMes['messages']:
         messId = mess['id']
         message = service.users().messages().get(userId='me', id=messId).execute()
