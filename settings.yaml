@@ -1,0 +1,9 @@
+DEFAULT:
+  chrome_driver_path: .\chromedriver
+
+DEVELOPMENT:
+  chrome_driver_path: .\chromedriver
+
+aws:
+  chrome_driver_path: /home/ubuntu/VCApp/VCAppBackEnd/chromedriver
+

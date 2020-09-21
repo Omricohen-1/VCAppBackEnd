@@ -1,0 +1,105 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+import time
+from dynaconf import settings
+from bs4 import BeautifulSoup as bs
+import json
+
+
+class LinkedinInstance:
+    def __init__(self, email, password):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        self.driver = webdriver.Chrome(
+            '/home/ubuntu/chrome_driver/chromedriver',
+            chrome_options=chrome_options)
+        self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
+        self.driver.get(self.main_url)
+        if self.driver.find_element_by_name('session_key'):
+            print('[LinkedinInstance] Sign-in requierd')
+            self.sign_in(email, password)
+
+    # TODO add a check to see if connected or not and the manage connection and handle cookies
+    def sign_in(self, email, password):
+        print('[LinkedinInstance][sign-in]  Starting')
+        usename_place = self.driver.find_element_by_name('session_key')
+        usename_place.click()
+        usename_place.send_keys(email)
+
+        usename_place = self.driver.find_element_by_name('session_password')
+        usename_place.click()
+        usename_place.send_keys(password)
+
+        self.driver.find_element_by_class_name("login__form_action_container").click()
+        print('[LinkedinInstance][sign-in] Success')
+        # TODO arrange until
+        WebDriverWait(self.driver, 30).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'search-global-typeahead__input')))
+
+    def search(self, search_string):
+        print('[LinkedinInstance][search] search_string=' + search_string)
+        search_bar = self.driver.find_element_by_class_name(
+            'search-global-typeahead__input')
+        search_bar.send_keys(search_string)
+        search_bar.send_keys(Keys.ENTER)
+        # TODO fix it to lazy wait prooperly
+        WebDriverWait(self.driver, 30).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'search-result__wrapper')))
+        time.sleep(1)
+
+    def parse_search_results(self):
+        html_source = self.driver.page_source
+        soup = bs(html_source, "html")
+        search_object_list = []
+        for el in soup.find_all("div", class_="search-result__wrapper"):
+            search_object_list.append(self.parse_single_elment(el))
+
+        return search_object_list
+
+    def parse_single_elment(self, banner_element):
+        # TODO manage a state and log if more then 1 finding
+        # TODO ass scroll Down
+        # TODO add shared connections url search and parse
+        # TODO add shared connections count
+        result = {}
+        result['name'] = [element.text for element in banner_element.find_all(
+            "span", class_="name actor-name")][0]
+        result['profile_url'] = self.main_url + [element["href"]
+                                                 for element in banner_element.find_all("a",
+                                                                                        class_="search-result__result-link ember-view")][
+            0]
+        result['role'] = [element.text for element in banner_element.find_all(
+            "p", class_="subline-level-1 t-14 t-black t-normal search-result__truncate")][0]
+        result['location'] = [element.text for element in banner_element.find_all(
+            "p", class_="subline-level-2 t-12 t-black--light t-normal search-result__truncate")][0]
+        try:
+            result['profile_img'] = [element['src'] for element in banner_element.findChildren(
+                "img")][0]
+        except:
+            None
+            # TODO LOG this
+        return result
+
+    def get_users_by_search(self, search_string):
+        # TODO Make it headless
+        # TODO add headers to connect as his default browser?
+
+        self.search(search_string)
+        return json.dumps(self.parse_search_results())
+
+
+def test_instance():
+    test_data = json.loads(open(r'mocks\FB_TEST.json', 'r').read())
+    return LinkedinInstance(
+        test_data['email'], test_data['password'])
+
+
+if __name__ == "__main__":
+    # TODO remove test data and get parmaters
+    test = test_instance()
+    test = test.get_users_by_search('Aviv Sharon')
+    print()
