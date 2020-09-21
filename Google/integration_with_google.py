@@ -20,8 +20,8 @@ def authentication():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists(r'Google\token.pickle'):
+        with open(r'Google\token.pickle', 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -29,24 +29,21 @@ def authentication():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                r'Google\credentials.json', SCOPES)
             creds = flow.run_local_server(port=81)
         # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
+        with open(r'Google\token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
     service = build('gmail', 'v1', credentials=creds)
     return service
 
 
-def export_date_from_messages(service, messages_array):
-    for mess in messages_array['messages']:
-        messId = mess['id']
-        message = service.users().messages().get(userId='me', id=messId).execute()
-        time_message_sent = message['payload']['headers'][1]['value']
-        array = time_message_sent.split()
-        datetime_object = datetime.datetime.strptime(f'{array[8]}-{array[7]}-{array[9]}', '%b-%d-%Y').date()
-        print(datetime_object)
+def export_date_from_message(message):
+    """receives dict with message's info and returns the date it was sent"""
+    time_message_sent = message['payload']['headers'][1]['value']
+    array = time_message_sent.split()
+    return datetime.datetime.strptime(f'{array[8]}-{array[7]}-{array[9]}', '%b-%d-%Y').date()
 
 
 def create_threshold_date(threshold):
@@ -59,8 +56,9 @@ def create_threshold_date(threshold):
 
 def bring_all_mess(service):
     """returns all the mails in your Gmail account from the last day"""
-    threshold_date = create_threshold_date(1)
+    threshold_date = create_threshold_date(3)
     allMes = service.users().messages().list(userId='me', q=f"after:{threshold_date}").execute()
+    return allMes
 
 
 def bring_filtered_mess(service, user, threshold):
@@ -71,18 +69,24 @@ def bring_filtered_mess(service, user, threshold):
     """
     threshold_date = create_threshold_date(threshold)
     allMes = service.users().messages().list(userId='me', q=f"from:{user}, after:{threshold_date}").execute()
+    return allMes
 
 
 def find_latest_message(service, allMes):
+    latest = datetime.datetime(2000, 1, 1).date()
     for mess in allMes['messages']:
         messId = mess['id']
         message = service.users().messages().get(userId='me', id=messId).execute()
-        print(message)
+        mess_date = export_date_from_message(message)
+        if mess_date > latest:
+            latest = mess_date
+    return latest
 
 
 def main():
     service = authentication()
-    bring_all_mess(service)
+    allMes = bring_all_mess(service)
+    print(find_latest_message(service, allMes))
 
 
 if __name__ == '__main__':
