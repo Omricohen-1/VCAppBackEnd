@@ -4,7 +4,7 @@ from flask_cors import CORS, cross_origin
 from add_contact_api import add_contact
 from social.linkedin import linkedin_instance as li
 from social.facebook import facebook
-from elasticsearch import Elasticsearch
+# from elasticsearch import Elasticsearch
 from linkedin import li_auth, li_search, li_launch_auth
 from dynaconf import settings
 
@@ -16,8 +16,8 @@ application.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(application)
 
 api.add_resource(add_contact, "/add-contacts")
-elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-central-1.es.amazonaws.com:443'],
-                        http_auth=('vcapp_test', 'CliqueHub1!'))
+# elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-central-1.es.amazonaws.com:443'],
+#                         http_auth=('vcapp_test', 'CliqueHub1!'))
 
 #linkedin paths
 api.add_resource(li_auth, '/linkedin/auth')
