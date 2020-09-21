@@ -15,7 +15,7 @@ class LinkedinInstance:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome(
-            '/home/ubuntu/chrome_driver/chromedriver',
+            '/usr/bin/chromedriver',
             chrome_options=chrome_options)
         self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
         self.driver.get(self.main_url)
