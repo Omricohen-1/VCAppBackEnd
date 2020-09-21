@@ -12,6 +12,7 @@ class li_auth(Resource):
     def get(self):
         if 'code' in request.args:
             code = request.args.get('code')
+            #TODO compare the state to ensure security
             state = request.args.get('state')
             get_access_token.main(code)
             return "got code processing... redirect in less then 5 sec"

@@ -25,7 +25,7 @@ def main():
                 'client_id': CLIENT_ID,
                 'redirect_uri': REDIRECT_URI,
                 'state': CSRF_TOKEN,
-                'scope': 'r_liteprofile r_emailaddress'}
+                'scope': 'r_liteprofile r_emailaddress w_member_social'}
 
     html = requests.get("https://www.linkedin.com/oauth/v2/authorization",
                         params = auth_params)
