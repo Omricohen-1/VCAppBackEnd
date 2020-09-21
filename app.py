@@ -2,14 +2,11 @@ from flask import Flask, request
 from flask_restful import Api
 from flask_cors import CORS, cross_origin
 from add_contact_api import add_contact
-<<<<<<< HEAD
 from social.linkedin import linkedin_instance as li
 from social.facebook import facebook
 from elasticsearch import Elasticsearch
-=======
 from linkedin import li_auth, li_search, li_launch_auth
-
->>>>>>> linkedin_oauth2
+from social.google import integration_with_google as gmail
 from dynaconf import settings
 
 
