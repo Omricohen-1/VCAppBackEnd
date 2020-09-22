@@ -96,14 +96,13 @@ def bring_all_mess_from_yesterday():
     return create_contact_date_array(all_messages)
 
 
-def bring_filtered_mess(contact, threshold):
+def bring_filtered_mess(contact_email, threshold):
     """returns all the mails in your Gmail account sent by user sent in the last 'threshold' days
-    :parameter service: gives access to your gmail account
-    :parameter contact: the sender e-mail account 'user@example.com'
+    :parameter contact_email: the sender e-mail account 'user@example.com'
     :parameter threshold: number of days back to search for
     """
     threshold_date = create_threshold_date(threshold)
-    all_messages = service.users().messages().list(userId='me', q=f"from:{contact}, after:{threshold_date}").execute()
+    all_messages = service.users().messages().list(userId='me', q=f"from:{contact_email}, after:{threshold_date}").execute()
     return create_contact_date_array(all_messages)
 
 

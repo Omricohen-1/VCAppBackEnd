@@ -41,6 +41,28 @@ def search_facebook():
     return facebook.login_facebook(email, password)
 
 
+@application.route("/search_gmail", methods=['GET'])
+def bring_all_messages_from_gmail():
+    return gmail.bring_all_mess()
+
+
+@application.route("/search_gmail", methods=['GET'])
+def bring_all_yesterday_messages_from_gmail():
+    return gmail.bring_all_mess_from_yesterday()
+
+
+@application.route("/search_gmail", methods=['GET'])
+def bring_all_messages_from_gmail():
+    """
+    Function excpects GET request with:
+    contact_email='{str}'
+    threshold='{str}'
+    """
+    email = request.args.get('email')
+    threshold = request.args.get('threshold')   #TODO: how this parameter called
+    return gmail.bring_filtered_mess(email, threshold)
+
+
 @application.route("/add_contact", methods=['POST'])
 def add_contact_to_db():
     # TODO fix connection with the new elastic
