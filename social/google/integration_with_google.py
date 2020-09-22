@@ -43,26 +43,26 @@ def authentication():
 service = authentication()
 
 
-#TODO: change to ISO timestamp
-def fix_time_display(date):
+def display_time_iso(date):
     date_split = date.split()
     time_split = date_split[4].split(':')
     iso_time = datetime.datetime.strptime(f'{date_split[3]}-{date_split[2]}-{date_split[1]} {time_split[0]}:{time_split[1]}:{time_split[2]}', '%Y-%b-%d %H:%M:%S')
     return str(iso_time)
 
 
-def fix_contact_display(contact):
+def fix_contact_email_display(contact):
+    """extract only the contact's email from the info in the message 'From' value"""
     array = contact.split()
     return array[1][1:-1]
 
 
 def get_value(message):
-    """receives dict with message's info and returns the date it was sent and participant"""
+    """receives dict with message's info and returns the date it was sent and contact email"""
     for item in message['payload']['headers']:
         if item['name'] == 'From':
-            contact = fix_contact_display(item['value'])
+            contact = fix_contact_email_display(item['value'])
         if item['name'] == 'Date':
-            date = fix_time_display(item['value'])
+            date = display_time_iso(item['value'])
     return contact, date
 
 
@@ -74,17 +74,26 @@ def create_threshold_date(threshold):
     return f"{threshold_date.year}/{threshold_date.month}/{threshold_date.day}"
 
 
+def create_contact_date_array(all_messages):
+    contact_date_array = []
+    for mess in all_messages['messages']:
+        messId = mess['id']
+        message = service.users().messages().get(userId='me', id=messId).execute()
+        contact_date_array.append(get_value(message))
+    return contact_date_array
+
+
 def bring_all_mess():
     """returns all the mails in your Gmail account"""
     all_messages = service.users().messages().list(userId='me', q=f"after:2015/01/01").execute()
-    return all_messages
+    return create_contact_date_array(all_messages)
 
 
 def bring_all_mess_from_yesterday():
     """returns all the mails in your Gmail account from the last day"""
     threshold_date = create_threshold_date(3)
     all_messages = service.users().messages().list(userId='me', q=f"after:{threshold_date}").execute()
-    return all_messages
+    return create_contact_date_array(all_messages)
 
 
 def bring_filtered_mess(contact, threshold):
@@ -95,28 +104,15 @@ def bring_filtered_mess(contact, threshold):
     """
     threshold_date = create_threshold_date(threshold)
     all_messages = service.users().messages().list(userId='me', q=f"from:{contact}, after:{threshold_date}").execute()
-    return all_messages
-
-
-def create_contact_date_array(all_messages):
-    contact_date_array = []
-    for mess in all_messages['messages']:
-        messId = mess['id']
-        message = service.users().messages().get(userId='me', id=messId).execute()
-        print(get_value(message))
-        contact_date_array.append(get_value(message))
-    return contact_date_array
+    return create_contact_date_array(all_messages)
 
 
 def main():
-    allMes = bring_all_mess_from_yesterday()
-    create_contact_date_array(allMes)
+    print(bring_filtered_mess("info@mailer.netflix.com", 200))
 
 
 if __name__ == '__main__':
     main()
-
-# returns a list of all the mails the contact had: mail of sender, date
 
 
 # def find_latest_message(allMes):
