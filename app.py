@@ -17,8 +17,8 @@ application.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(application)
 
 api.add_resource(add_contact, "/add-contacts")
-elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-central-1.es.amazonaws.com:443'],
-                        http_auth=('vcapp_test', 'CliqueHub1!'))
+# elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-central-1.es.amazonaws.com:443'],
+#                         http_auth=('vcapp_test', 'CliqueHub1!'))
 
 #linkedin paths
 api.add_resource(li_auth, '/linkedin/auth')

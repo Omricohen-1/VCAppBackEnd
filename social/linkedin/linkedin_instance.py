@@ -14,8 +14,14 @@ class LinkedinInstance:
     def __init__(self, email, password):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-notifications")
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+
+
         self.driver = webdriver.Chrome(
-            '/home/ubuntu/chrome_driver/chromedriver',
+            '/usr/bin/chromedriver',
             chrome_options=chrome_options)
         self.main_url = 'https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin'
         self.driver.get(self.main_url)
@@ -53,7 +59,7 @@ class LinkedinInstance:
 
     def parse_search_results(self):
         html_source = self.driver.page_source
-        soup = bs(html_source, "html")
+        soup = bs(html_source, "html.parser")
         search_object_list = []
         for el in soup.find_all("div", class_="search-result__wrapper"):
             search_object_list.append(self.parse_single_elment(el))

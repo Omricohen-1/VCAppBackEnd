@@ -21,7 +21,7 @@ class li_auth(Resource):
            
 
 class li_search(Resource):
-    def search_linkedin(self):
+    def get(self):
         """
         Function excpects GET request with:
         q='{str}' arg
