@@ -75,6 +75,8 @@ def create_threshold_date(threshold):
 
 
 def create_contact_date_array(all_messages):
+    if all_messages['resultSizeEstimate'] == 0:
+        return []
     contact_date_array = []
     for mess in all_messages['messages']:
         messId = mess['id']
@@ -107,7 +109,8 @@ def bring_filtered_mess(contact_email, threshold):
 
 
 def main():
-    print(bring_filtered_mess("info@mailer.netflix.com", 200))
+    print(bring_filtered_mess("a", 3))
+    bring_filtered_mess("info@mailer.netflix.com", 200)
 
 
 if __name__ == '__main__':
