@@ -8,7 +8,6 @@ from social.facebook import facebook
 from linkedin import li_auth, li_search, li_launch_auth
 from dynaconf import settings
 
-
 application = Flask(__name__)
 cors = CORS(application)
 application.config['CORS_HEADERS'] = 'Content-Type'
@@ -19,13 +18,13 @@ api.add_resource(add_contact, "/add-contacts")
 # elastic = Elasticsearch(['https://search-omri-elflj5ij34pitprcoersng2dfm.eu-central-1.es.amazonaws.com:443'],
 #                         http_auth=('vcapp_test', 'CliqueHub1!'))
 
-#linkedin paths
+# linkedin paths
 api.add_resource(li_auth, '/linkedin/auth')
 api.add_resource(li_search, '/linkedin/search')
 api.add_resource(li_launch_auth, '/linkedin/launch_auth')
 
 
-@application.route("/search_facebook", methods=['GET'])
+@application.route("/facebook/search", methods=['GET'])
 def search_facebook():
     """
     Function excpects GET request with:
@@ -37,7 +36,7 @@ def search_facebook():
     search_string = request.args.get('q')
     email = request.args.get('email')
     password = request.args.get('password')
-    return facebook.login_facebook(email, password)
+    return facebook.get_users_by_search(email, password, search_string)
 
 
 @application.route("/add_contact", methods=['POST'])
