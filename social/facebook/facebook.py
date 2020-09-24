@@ -77,10 +77,7 @@ def get_intro(soup):
 
 
 def get_name(soup):
-    with open('linkedin.html','w') as file:
-        file.write(str(soup))
-    print('wrote linkedin!')
     name_span = soup.find_all("span",
-                              class_="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 l1jc4y16 fe6kdd0r mau55g9w c8b282yb rwim8176 mhxlubs3 p5u9llcw hnhda86s oo9gr5id oqcyycmt")[
+                              class_="d2edcug0 hpfvmrgz qv66sw1b c1et5uql gk29lw5a a8c37x1j keod5gw0 nxhoafnm aigsh9s9 qg6bub1s fe6kdd0r mau55g9w c8b282yb teo7jy3c mhxlubs3 p5u9llcw hnhda86s oo9gr5id oqcyycmt")[
         0]
     return name_span.find_all("h1", class_="gmql0nx0 l94mrbxd p1ri9a11 lzcic4wl bp9cbjyn j83agx80")[0].text
