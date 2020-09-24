@@ -52,7 +52,7 @@ def extract_data(relevant_profiles, driver):
         soup = bs(html_source, "html.parser")
         profile_results["name"] = get_name(soup)
         profile_results["intro"] = get_intro(soup)
-        profile_results["img"] = get_profile_img(soup)
+        # profile_results["img"] = get_profile_img(soup)
         profile_results["facebook_profile_link"] = profile
         final_results.append(profile_results)
     return final_results
