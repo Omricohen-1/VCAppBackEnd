@@ -15,8 +15,7 @@ def get_users_by_search(email, password, search_string):
 def login_facebook(email, password):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome('C:\\Users\\FourI\\.wdm\\drivers\\chromedriver\\win32\\84.0.4147.30\\chromedriver',
-                              chrome_options=chrome_options)
+    driver = webdriver.Chrome('/usr/bin/chromedriver', chrome_options=chrome_options)
     driver.get('https://www.facebook.com/login.php')
     driver.find_element_by_id('email').send_keys(email)
     driver.find_element_by_id('pass').send_keys(password)
