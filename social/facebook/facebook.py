@@ -69,9 +69,8 @@ def get_intro(soup):
         0]
     intro = intro.find_all('ul')[0]
     for elem in intro:
-        print(elem)
         subject = elem.find_all("span",
-                                class_="d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d3f4x2em fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m")[
+                                class_="d2edcug0 hpfvmrgz qv66sw1b c1et5uql gk29lw5a a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb hrzyx87i jq4qci2q a3bd9o3v knj5qynh oo9gr5id hzawbc8m")[
             0].text
         full_intro.append(subject)
     return full_intro
