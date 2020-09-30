@@ -56,11 +56,18 @@ def fix_contact_email_display(contact):
     return array[1][1:-1]
 
 
+#TODO: check sent items
 def get_value(message):
     """receives dict with message's info and returns the date it was sent and contact email"""
+    if message['id'] == "174b4fe943c402a4":
+        print("")
     for item in message['payload']['headers']:
-        if item['name'] == 'From':
-            contact = fix_contact_email_display(item['value'])
+        # finds the receiver and sender of the mail, and chooses the email that is not our own
+        if item['name'] == 'Delivered - To':
+            contact = item['value']
+            if contact == "my mail": #TODO: fix to user mail
+                if item['name'] == 'From':
+                    contact = fix_contact_email_display(item['value'])
         if item['name'] == 'Date':
             date = display_time_iso(item['value'])
     return contact, date
@@ -109,8 +116,7 @@ def bring_filtered_mess(contact_email, threshold):
 
 
 def main():
-    print(bring_filtered_mess("a", 3))
-    bring_filtered_mess("info@mailer.netflix.com", 200)
+    bring_all_mess()
 
 
 if __name__ == '__main__':
